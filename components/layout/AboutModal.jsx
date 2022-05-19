@@ -2,21 +2,20 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button,
   Text,
   Box,
   Code,
   useColorModeValue,
+  IconButton,
 } from "@chakra-ui/react";
+import { InfoIcon } from "@chakra-ui/icons";
 
 const AboutModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const bgColor = useColorModeValue("rgba(255,255,255,0.8)", "rgba(0,0,0,0.5)");
+  const bgColor = useColorModeValue("rgba(255,255,255,0.9)", "rgba(0,0,0,0.5)");
 
   const packages = [
     {
@@ -39,11 +38,15 @@ const AboutModal = () => {
 
   return (
     <>
-      <Button onClick={onOpen} variant="ghost" _focus={{ outline: 0 }}>
-        About
-      </Button>
+      <IconButton
+        icon={<InfoIcon />}
+        onClick={onOpen}
+        variant="ghost"
+        _focus={{ outline: 0 }}
+      />
+
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay backdropFilter="blur(5px)" />
         <ModalContent bg={bgColor} backdropFilter="blur(10px)" p={4}>
           <ModalCloseButton _focus={{ outline: 0 }} />
           <ModalBody m={10} pb={6}>
