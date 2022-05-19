@@ -4,7 +4,7 @@ npx create-next-app@latest
 ```
 
 ```bash
-##Install Chakra
+## Install Chakra
 npm i @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^6
 ```
 
@@ -19,10 +19,13 @@ mkdir studio
 mkdir lib
 npm install -g @sanity/cli && sanity init --template get-started --project k29pknem --dataset production --provider github
 
+# Start local Sanity Studio server
+# Open localhost:3333
 sanity start
 ```
 
 ```bash
+## Start localhost:3000
 cd next-sanity-todo
 npm run dev
 ```
