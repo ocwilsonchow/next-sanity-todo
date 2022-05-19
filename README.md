@@ -23,7 +23,3 @@ sanity start
 cd next-sanity-todo
 npm run dev
 ```
-
-```bash
-mkdir lib/sanity.js
-```
