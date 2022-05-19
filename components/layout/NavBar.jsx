@@ -1,5 +1,6 @@
 import { Flex, HStack, Text } from "@chakra-ui/react";
 import React from "react";
+import AboutModal from "./AboutModal";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 
 const NavBar = () => {
@@ -8,7 +9,10 @@ const NavBar = () => {
       <Text fontWeight="black" fontSize="4xl">
         Tasks.
       </Text>
-      <ColorModeSwitcher />
+      <HStack>
+        <AboutModal />
+        <ColorModeSwitcher />
+      </HStack>
     </Flex>
   );
 };

@@ -6,7 +6,8 @@ import {
   GridItem,
   HStack,
   Text,
-  useColorModeValue
+  useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { client } from "../../lib/sanity";
@@ -20,14 +21,22 @@ const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(task.done);
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
-  const bgColor = useColorModeValue('gray.50', 'gray.900')
-  const txtColor = useColorModeValue('black','white')
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const txtColor = useColorModeValue("black", "white");
+  const toast = useToast();
 
   const handleDelete = async () => {
     setLoading(true);
     try {
       await client.delete(task._id);
-      mutate();
+      await mutate();
+      toast({
+        title: "Task successfully deleted.",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+        position: 'bottom'
+      });
     } catch (error) {
       console.log(error);
       setLoading(false);

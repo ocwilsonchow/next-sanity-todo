@@ -5,7 +5,7 @@ import {
   Input,
   Button,
   useColorModeValue,
-  Box,
+  useToast,
   FormControl,
 } from "@chakra-ui/react";
 import { client } from "../../lib/sanity";
@@ -21,6 +21,7 @@ const CreateTask = () => {
   const [loading, setLoading] = useState(false);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const txtColor = useColorModeValue("black", "white");
+  const toast = useToast();
 
   const handleCreateTask = async (e) => {
     e.preventDefault();
@@ -36,6 +37,13 @@ const CreateTask = () => {
       await client.create(doc);
       setLoading(false);
       await mutate();
+      toast({
+        title: "Task successfully created.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "bottom",
+      });
     } catch (error) {
       console.log(error);
       setLoading(false);
