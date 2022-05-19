@@ -14,8 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     const query = '*[_type == "task"]';
-    client.listen(query).subscribe((update) => {
-      console.log(update.result);
+    client.listen(query).subscribe(() => {
       mutate();
     });
   }, [mutate]);
@@ -29,9 +28,9 @@ export default function Home() {
 
   return (
     <Box p={6}>
-      <Grid templateColumns="repeat(6, 1fr)" gap={6}>
+      <Grid templateColumns="repeat(6, 1fr)" gap={4}>
         <CreateTask />
-        {tasks.map((task) => (
+        {tasks?.map((task) => (
           <SingleTask task={task} key={task._id} />
         ))}
       </Grid>

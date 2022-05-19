@@ -7,8 +7,7 @@ import {
   GridItem,
   HStack,
   Text,
-  Spinner,
-  Center,
+  useColorModeValue
 } from "@chakra-ui/react";
 import moment from "moment";
 import { client } from "../../lib/sanity";
@@ -20,14 +19,16 @@ const key = groq`*[_type == "task"] | order(_createdAt desc)`;
 
 const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
-  const { data: tasks, error, mutate } = useSWR(key, fetcher);
   const [checked, setChecked] = useState(task.done);
-  const [updating, setUpdating] = useState(false);
+  const { data: tasks, error, mutate } = useSWR(key, fetcher);
+  const bgColor = useColorModeValue('gray.50', 'gray.900')
+  const txtColor = useColorModeValue('black','white')
 
-  // Handle delete the task
   const handleDelete = async () => {
+    setLoading(true);
     try {
       await client.delete(task._id);
+      mutate();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -38,20 +39,23 @@ const SingleTask = ({ task }) => {
     setChecked(task.done);
   }, [task]);
 
-  // handle update task done status
   const handleUpdate = async () => {
-    console.log("updating");
     setUpdating(true);
-    await client
-      .patch(task._id)
-      .set({ done: !checked })
-      .commit()
-      .then(setUpdating(false))
-      .catch((err) => {
-        console.error(err.message);
-      });
 
-      mutate()
+    const updateFn = async () => {
+      await client
+        .patch(task._id)
+        .set({ done: !checked })
+        .commit()
+        .then(setUpdating(false))
+        .catch((err) => {
+          console.error(err.message);
+        });
+    };
+
+    await updateFn();
+    mutate();
+    setUpdating(false);
   };
 
   return (
@@ -59,25 +63,16 @@ const SingleTask = ({ task }) => {
       as={Flex}
       justifyContent="space-between"
       alignItems="center"
-      p={3}
+      p={4}
       borderWidth={0.5}
       rounded="base"
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
+      bg={bgColor}
+      color={txtColor}
     >
-      <HStack spacing={4}>
-        <Center w={30}>
-          {!updating && (
-            <Switch
-              colorScheme="green"
-              _focus={{ outline: 0 }}
-              isChecked={checked}
-              onChange={() => handleUpdate()}
-            />
-          )}
-          {updating && <Spinner size="sm" />}
-        </Center>
+      <HStack>
         <Box>
-          <Text fontSize="lg" fontWeight="bold">
+          <Text fontSize="xl" fontWeight="extrabold">
             {task.description}
           </Text>
           <Text fontSize="0.7rem" fontWeight="light">

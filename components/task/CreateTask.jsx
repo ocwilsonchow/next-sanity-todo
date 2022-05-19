@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { GridItem, Flex, Input, Button, FormControl } from "@chakra-ui/react";
+import {
+  GridItem,
+  Flex,
+  Input,
+  Button,
+  useColorModeValue,
+  Box,
+  FormControl,
+} from "@chakra-ui/react";
 import { client } from "../../lib/sanity";
 import groq from "groq";
 import useSWR from "swr";
@@ -11,6 +19,8 @@ const CreateTask = () => {
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
   const [taskInput, setTaskInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const txtColor = useColorModeValue("black", "white");
 
   const handleCreateTask = async (e) => {
     e.preventDefault();
@@ -19,13 +29,13 @@ const CreateTask = () => {
     const doc = {
       _type: "task",
       description: taskInput,
-      done: false
+      done: false,
     };
     try {
       await client.create(doc);
       setTaskInput("");
       setLoading(false);
-      // await mutate();
+      await mutate();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -38,19 +48,27 @@ const CreateTask = () => {
       justifyContent="space-between"
       columnGap={4}
       alignItems="center"
-      p={3}
+      px={4}
+      py={5}
       borderWidth={0.5}
       rounded="base"
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
+      bg={bgColor}
+      color={txtColor}
     >
       <form style={{ width: "80%" }} onSubmit={(e) => handleCreateTask(e)}>
-        <Input
-          variant="flushed"
-          w="full"
-          placeholder="Create task"
-          value={taskInput}
-          onChange={(e) => setTaskInput(e.target.value)}
-        />
+        <FormControl>
+          <Input
+            variant="flushed"
+            w="full"
+            placeholder="Create task"
+            value={taskInput}
+            onChange={(e) => setTaskInput(e.target.value)}
+            fontSize="xl"
+            fontWeight="extrabold"
+            focusBorderColor="teal.500"
+          />
+        </FormControl>
       </form>
       <Button
         _focus={{ outline: 0 }}
