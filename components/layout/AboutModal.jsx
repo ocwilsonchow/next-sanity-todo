@@ -27,6 +27,10 @@ const AboutModal = () => {
       tech: "Sanity",
     },
     {
+      purpose: 'Query Language',
+      tech: 'GROQ'
+    },
+    {
       purpose: "Data Fetching",
       tech: "SWR",
     },
