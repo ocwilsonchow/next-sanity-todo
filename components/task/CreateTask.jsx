@@ -24,6 +24,7 @@ const CreateTask = () => {
 
   const handleCreateTask = async (e) => {
     e.preventDefault();
+    setTaskInput("");
     if (!taskInput) return;
     setLoading(true);
     const doc = {
@@ -33,7 +34,6 @@ const CreateTask = () => {
     };
     try {
       await client.create(doc);
-      setTaskInput("");
       setLoading(false);
       await mutate();
     } catch (error) {
