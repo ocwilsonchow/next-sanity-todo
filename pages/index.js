@@ -18,8 +18,6 @@ export default function Home() {
       // console.log(update.result);
       mutate();
     });
-
-    return () => {};
   }, [mutate]);
 
   if (!tasks)
