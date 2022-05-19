@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import {
   Button,
-  Switch,
   Box,
   Flex,
   GridItem,
@@ -39,25 +38,6 @@ const SingleTask = ({ task }) => {
     setChecked(task.done);
   }, [task]);
 
-  const handleUpdate = async () => {
-    setUpdating(true);
-
-    const updateFn = async () => {
-      await client
-        .patch(task._id)
-        .set({ done: !checked })
-        .commit()
-        .then(setUpdating(false))
-        .catch((err) => {
-          console.error(err.message);
-        });
-    };
-
-    await updateFn();
-    mutate();
-    setUpdating(false);
-  };
-
   return (
     <GridItem
       as={Flex}
@@ -72,10 +52,10 @@ const SingleTask = ({ task }) => {
     >
       <HStack>
         <Box>
-          <Text fontSize="xl" fontWeight="extrabold">
+          <Text fontSize="2xl" fontWeight="extrabold">
             {task.description}
           </Text>
-          <Text fontSize="0.7rem" fontWeight="light">
+          <Text fontSize="0.9rem" fontWeight="thin">
             {moment(task._createdAt).calendar()}
           </Text>
         </Box>

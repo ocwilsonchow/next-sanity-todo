@@ -7,12 +7,6 @@ export default {
       name: 'description',
       title: 'Description',
       type: 'string'
-    },
-    {
-      name: 'done',
-      title: 'Done',
-      type: 'boolean',
-      initialValue: false
     }
   ]
 }

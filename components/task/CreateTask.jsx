@@ -64,7 +64,7 @@ const CreateTask = () => {
             placeholder="Create task"
             value={taskInput}
             onChange={(e) => setTaskInput(e.target.value)}
-            fontSize="xl"
+            fontSize="2xl"
             fontWeight="extrabold"
             focusBorderColor="teal.500"
           />
