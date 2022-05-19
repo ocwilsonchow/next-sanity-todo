@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   Box,
@@ -19,7 +19,6 @@ const key = groq`*[_type == "task"] | order(_createdAt desc)`;
 
 const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
-  const [checked, setChecked] = useState(task.done);
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const txtColor = useColorModeValue("black", "white");
@@ -35,17 +34,13 @@ const SingleTask = ({ task }) => {
         status: "info",
         duration: 2000,
         isClosable: true,
-        position: 'bottom'
+        position: "bottom",
       });
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    setChecked(task.done);
-  }, [task]);
 
   return (
     <GridItem
