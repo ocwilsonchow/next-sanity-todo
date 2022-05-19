@@ -16,7 +16,6 @@ import { InfoIcon } from "@chakra-ui/icons";
 const AboutModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue("rgba(255,255,255,0.9)", "rgba(0,0,0,0.5)");
-
   const packages = [
     {
       purpose: "Frontend",
@@ -27,8 +26,8 @@ const AboutModal = () => {
       tech: "Sanity",
     },
     {
-      purpose: 'Query Language',
-      tech: 'GROQ'
+      purpose: "Query Language",
+      tech: "GROQ",
     },
     {
       purpose: "Data Fetching",
@@ -48,7 +47,6 @@ const AboutModal = () => {
         variant="ghost"
         _focus={{ outline: 0 }}
       />
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay backdropFilter="blur(5px)" />
         <ModalContent bg={bgColor} backdropFilter="blur(10px)" p={4}>
