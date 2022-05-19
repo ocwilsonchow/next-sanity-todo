@@ -30,8 +30,8 @@ export default function Home() {
     );
 
   return (
-    <Box p={4}>
-      <Grid templateColumns="repeat(6, 1fr)" gap={4}>
+    <Box p={6}>
+      <Grid templateColumns="repeat(6, 1fr)" gap={6}>
         <CreateTask />
         {tasks.map((task) => (
           <SingleTask task={task} key={task._id} />
