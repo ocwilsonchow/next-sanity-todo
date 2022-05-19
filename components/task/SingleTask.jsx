@@ -24,7 +24,7 @@ const SingleTask = ({ task }) => {
     setLoading(true);
     try {
       await client.delete(task._id);
-      await mutate();
+      // await mutate();
       setLoading(false);
     } catch (error) {
       console.log(error);

@@ -22,9 +22,9 @@ const CreateTask = () => {
     };
     try {
       await client.create(doc);
-      await mutate();
       setTaskInput("");
       setLoading(false);
+      // await mutate();
     } catch (error) {
       console.log(error);
       setLoading(false);
