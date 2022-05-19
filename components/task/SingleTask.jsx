@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Switch,
@@ -31,6 +31,11 @@ const SingleTask = ({ task }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setChecked(task.done)
+  }, [task])
+
 
   const handleUpdate = async () => {
     try {
