@@ -1,53 +1,31 @@
-import { IconButton } from "@chakra-ui/button";
-import { Checkbox } from "@chakra-ui/checkbox";
-import { CloseButton } from "@chakra-ui/close-button";
-import {
-  Box,
-  Center,
-  Flex,
-  Grid,
-  GridItem,
-  HStack,
-  Text,
-  VStack,
-} from "@chakra-ui/layout";
+import { Box, Grid, Center, Spinner } from "@chakra-ui/react";
 import CreateTask from "../components/task/CreateTask";
-import { apiGetAllTasks } from "../lib/task";
+import SingleTask from "../components/task/SingleTask";
+import { client } from "../lib/sanity";
+import useSWR from "swr";
+import groq from 'groq'
 
-export default function Home({ tasks }) {
-  console.log(tasks);
+const fetcher = (query) => client.fetch(query).then((r) => r);
+const key = groq`*[_type == "task"] | order(_createdAt desc)`
+
+export default function Home() {
+  const { data: tasks, error, mutate } = useSWR(key, fetcher);
+
+  if (!tasks)
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+
   return (
     <Box p={4}>
-      <Grid mt={6} templateColumns="repeat(6, 1fr)" gap={4}>
+      <Grid templateColumns="repeat(6, 1fr)" gap={4}>
         <CreateTask />
         {tasks.map((task) => (
-          <GridItem
-            key={task._id}
-            as={Flex}
-            justifyContent="space-between"
-            alignItems='center'
-            p={3}
-            borderWidth={1}
-            rounded="base"
-            colSpan={{ base: 6, sm: 3, md: 2, lg: 2 }}
-          >
-            <HStack spacing={3} >
-              <Checkbox />
-              <Text>{task.description}</Text>
-            </HStack>
-            <CloseButton />
-          </GridItem>
+          <SingleTask task={task} key={task._id} />
         ))}
       </Grid>
     </Box>
   );
-}
-
-export async function getStaticProps() {
-  const tasks = await apiGetAllTasks();
-  return {
-    props: {
-      tasks,
-    },
-  };
 }
