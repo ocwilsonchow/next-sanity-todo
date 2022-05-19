@@ -20,12 +20,13 @@ const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
   const [checked, setChecked] = useState(task.done);
+  const [tasksMap, setTasksMap] = useState(tasks);
 
+  // Handle delete the task
   const handleDelete = async () => {
     setLoading(true);
     try {
       await client.delete(task._id);
-      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -33,25 +34,35 @@ const SingleTask = ({ task }) => {
   };
 
   useEffect(() => {
-    setChecked(task.done)
-  }, [task])
+    setChecked(task.done);
+  }, [task]);
 
+  // handle update task done status
+  const handleUpdate = async (e) => {
+    const taskDoc = {
+      _type: "task",
+      _id: task._id,
+      description: task.description,
+      done: !checked,
+    };
 
-  const handleUpdate = async () => {
-    try {
+    const thisIndex = tasks.findIndex((a) => a._id === task._id);
+    tasksMap[thisIndex] = taskDoc;
+    const options = { optimisticData: tasksMap, rollbackOnError: true };
+
+    // the function to be put in mutation
+    const updateTask = async () => {
       await client
         .patch(task._id)
         .set({ done: !checked })
         .commit()
-        .then((updated) => {
-          console.log(updated);
-        })
         .catch((err) => {
-          console.error("Oh no, the update failed: ", err.message);
+          console.error(err.message);
         });
-    } catch (error) {
-      console.log(error);
-    }
+      return tasksMap;
+    };
+
+    mutate(updateTask(), options);
   };
 
   return (
@@ -68,8 +79,8 @@ const SingleTask = ({ task }) => {
         <Switch
           colorScheme="green"
           _focus={{ outline: 0 }}
-          isChecked={task.done}
-          onChange={() => handleUpdate()}
+          isChecked={checked}
+          onChange={(e) => handleUpdate(e)}
         />
         <Box>
           <Text fontSize="lg" fontWeight="bold">
