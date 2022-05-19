@@ -7,6 +7,8 @@ import {
   GridItem,
   HStack,
   Text,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { client } from "../../lib/sanity";
@@ -20,11 +22,10 @@ const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
   const [checked, setChecked] = useState(task.done);
-  const [tasksMap, setTasksMap] = useState(tasks);
+  const [updating, setUpdating] = useState(false);
 
   // Handle delete the task
   const handleDelete = async () => {
-    setLoading(true);
     try {
       await client.delete(task._id);
     } catch (error) {
@@ -38,31 +39,19 @@ const SingleTask = ({ task }) => {
   }, [task]);
 
   // handle update task done status
-  const handleUpdate = async (e) => {
-    const taskDoc = {
-      _type: "task",
-      _id: task._id,
-      description: task.description,
-      done: !checked,
-    };
+  const handleUpdate = async () => {
+    console.log("updating");
+    setUpdating(true);
+    await client
+      .patch(task._id)
+      .set({ done: !checked })
+      .commit()
+      .then(setUpdating(false))
+      .catch((err) => {
+        console.error(err.message);
+      });
 
-    const thisIndex = tasks.findIndex((a) => a._id === task._id);
-    tasksMap[thisIndex] = taskDoc;
-    const options = { optimisticData: tasksMap, rollbackOnError: true };
-
-    // the function to be put in mutation
-    const updateTask = async () => {
-      await client
-        .patch(task._id)
-        .set({ done: !checked })
-        .commit()
-        .catch((err) => {
-          console.error(err.message);
-        });
-      return tasksMap;
-    };
-
-    mutate(updateTask(), options);
+      mutate()
   };
 
   return (
@@ -76,12 +65,17 @@ const SingleTask = ({ task }) => {
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
     >
       <HStack spacing={4}>
-        <Switch
-          colorScheme="green"
-          _focus={{ outline: 0 }}
-          isChecked={checked}
-          onChange={(e) => handleUpdate(e)}
-        />
+        <Center w={30}>
+          {!updating && (
+            <Switch
+              colorScheme="green"
+              _focus={{ outline: 0 }}
+              isChecked={checked}
+              onChange={() => handleUpdate()}
+            />
+          )}
+          {updating && <Spinner size="sm" />}
+        </Center>
         <Box>
           <Text fontSize="lg" fontWeight="bold">
             {task.description}

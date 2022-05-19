@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     const query = '*[_type == "task"]';
     client.listen(query).subscribe((update) => {
-      // console.log(update.result);
+      console.log(update.result);
       mutate();
     });
   }, [mutate]);
