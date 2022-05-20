@@ -9,10 +9,12 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 import moment from "moment";
 import { client } from "../../lib/sanity";
 import groq from "groq";
 import useSWR from "swr";
+import Link from "next/link";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
 const key = groq`*[_type == "task"] | order(_createdAt desc)`;
@@ -53,12 +55,24 @@ const SingleTask = ({ task }) => {
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
       bg={bgColor}
       color={txtColor}
+      position='relative'
     >
+      <Flex mx={3} position="absolute" top={1} left={-2} >
+        {task.highlighted && <StarIcon fontSize="md" color="salmon" />}
+      </Flex>
       <HStack>
         <Box>
-          <Text fontSize="2xl" fontWeight="extrabold">
-            {task.description}
-          </Text>
+          <Link href={`/task/${task._id}`}>
+            <Button
+              fontSize="2xl"
+              color={txtColor}
+              fontWeight="extrabold"
+              variant="link"
+              _focus={{ outline: 0 }}
+            >
+              {task.description}
+            </Button>
+          </Link>
           <Text fontSize="0.9rem" fontWeight="thin">
             {moment(task._createdAt).calendar()}
           </Text>
