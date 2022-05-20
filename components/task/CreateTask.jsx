@@ -34,6 +34,7 @@ const CreateTask = () => {
     const doc = {
       _type: "task",
       description: taskInput,
+      highlighted: false
     };
     try {
       await client.create(doc);

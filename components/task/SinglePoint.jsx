@@ -6,6 +6,7 @@ import {
   Button,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 import { client } from "../../lib/sanity";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -41,6 +42,8 @@ const SinglePoint = ({ point, i, taskId }) => {
       setLoading(false);
     }
   };
+
+  console.log(point)
 
   return (
     <GridItem

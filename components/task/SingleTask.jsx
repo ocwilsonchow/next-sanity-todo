@@ -9,6 +9,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 import moment from "moment";
 import { client } from "../../lib/sanity";
 import groq from "groq";
@@ -54,7 +55,11 @@ const SingleTask = ({ task }) => {
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
       bg={bgColor}
       color={txtColor}
+      position='relative'
     >
+      <Flex mx={3} position="absolute" top={1} left={-2} >
+        {task.highlighted && <StarIcon fontSize="md" color="salmon" />}
+      </Flex>
       <HStack>
         <Box>
           <Link href={`/task/${task._id}`}>

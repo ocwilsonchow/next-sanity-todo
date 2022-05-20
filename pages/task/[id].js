@@ -10,8 +10,12 @@ import {
   Grid,
   Alert,
   AlertIcon,
-  AlertTitle
+  AlertTitle,
+  Flex,
+  InputGroup,
+  InputRightAddon,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { client } from "../../lib/sanity";
 import useSWR from "swr";
@@ -27,7 +31,7 @@ const PageTaskShow = () => {
   const [pointInput, setPointInput] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { data: task, error, mutate } = useSWR(key, fetcher);
+  const { data: task, mutate } = useSWR(key, fetcher);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
@@ -75,22 +79,32 @@ const PageTaskShow = () => {
 
   return (
     <Box p={6}>
-      <Text fontWeight="extrabold" fontSize="7xl">
-        {task.description}
-      </Text>
+      <Box position="relative">
+        <Flex mx={3} position="absolute" top={4} left={-6}>
+          {task.highlighted && <StarIcon fontSize="md" color="salmon" />}
+        </Flex>
+        <Text fontWeight="extrabold" fontSize="7xl">
+          {task.description}
+        </Text>
+      </Box>
       <Box py={6}>
         <form style={{ width: "100%" }} onSubmit={(e) => handleCreatePoint(e)}>
           <FormControl>
-            <Input
-              variant="flushed"
-              w="full"
-              placeholder="Create task"
-              value={pointInput}
-              onChange={(e) => setPointInput(e.target.value)}
-              fontSize="2xl"
-              fontWeight="extrabold"
-              focusBorderColor="teal.500"
-            />
+            <InputGroup>
+              <Input
+                variant="flushed"
+                w="full"
+                placeholder="Create task"
+                value={pointInput}
+                onChange={(e) => setPointInput(e.target.value)}
+                fontSize="2xl"
+                fontWeight="extrabold"
+                focusBorderColor="teal.500"
+              />
+              <InputRightAddon bg='none' border='none' >
+                {loading && <Spinner />}
+              </InputRightAddon>
+            </InputGroup>
             {errorMsg && (
               <Alert my={3}>
                 <AlertIcon />

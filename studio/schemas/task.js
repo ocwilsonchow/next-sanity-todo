@@ -18,5 +18,11 @@ export default {
         },
       ],
     },
+    {
+      name: 'highlighted',
+      title: 'Highlighted',
+      type: 'boolean',
+      initialValue: false
+    }
   ],
 };
