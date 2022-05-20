@@ -20,7 +20,7 @@ const key = groq`*[_type == "task"] | order(_createdAt desc)`;
 const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
-  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const bgColor = useColorModeValue("gray.50", "green.800");
   const txtColor = useColorModeValue("black", "white");
   const toast = useToast();
 
