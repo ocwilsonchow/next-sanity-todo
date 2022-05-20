@@ -7,13 +7,10 @@ import {
   useColorModeValue,
   useToast,
   FormControl,
-  Box,
-  Text,
 } from "@chakra-ui/react";
 import { client } from "../../lib/sanity";
 import groq from "groq";
 import useSWR from "swr";
-import moment from "moment";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
 const key = groq`*[_type == "task"] | order(_createdAt desc)`;
@@ -88,6 +85,7 @@ const CreateTask = () => {
         onClick={(e) => handleCreateTask(e)}
         isLoading={loading}
         type="submit"
+        disabled={!taskInput}
       >
         Create
       </Button>
