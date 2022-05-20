@@ -70,7 +70,6 @@ const CreateTask = () => {
           <Input
             variant="flushed"
             w="full"
-            placeholder="Create task"
             value={taskInput}
             onChange={(e) => setTaskInput(e.target.value)}
             fontSize="2xl"
