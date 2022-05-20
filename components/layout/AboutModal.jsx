@@ -37,6 +37,10 @@ const AboutModal = () => {
       purpose: "CSS Framework",
       tech: "Chakra UI",
     },
+     {
+      purpose: "Hosting",
+      tech: "Vercel",
+    },
   ];
 
   return (
