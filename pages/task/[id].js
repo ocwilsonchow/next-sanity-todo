@@ -11,11 +11,10 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  Flex,
   InputGroup,
   InputRightElement,
+  GridItem,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { client } from "../../lib/sanity";
 import useSWR from "swr";
@@ -77,6 +76,7 @@ const PageTaskShow = () => {
       </Center>
     );
 
+
   return (
     <Box p={6}>
       <Text fontWeight="extrabold" fontSize="7xl">
@@ -110,6 +110,11 @@ const PageTaskShow = () => {
         </form>
       </Box>
       <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+        {!task.details && (
+          <GridItem colSpan={6} as={Alert} colorScheme='gray' fontWeight="bold">
+            <AlertTitle>{`Nothing in ${task.description}`}</AlertTitle>
+          </GridItem>
+        )}
         {task.details?.map((point, i) => (
           <SinglePoint key={i} point={point} i={i} task={task} />
         ))}
