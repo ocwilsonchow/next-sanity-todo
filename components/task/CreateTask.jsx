@@ -7,10 +7,13 @@ import {
   useColorModeValue,
   useToast,
   FormControl,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { client } from "../../lib/sanity";
 import groq from "groq";
 import useSWR from "swr";
+import moment from "moment";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
 const key = groq`*[_type == "task"] | order(_createdAt desc)`;
@@ -56,7 +59,7 @@ const CreateTask = () => {
       columnGap={4}
       alignItems="center"
       px={4}
-      py={5}
+      py={2}
       borderWidth={0.5}
       rounded="base"
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
@@ -72,11 +75,12 @@ const CreateTask = () => {
             value={taskInput}
             onChange={(e) => setTaskInput(e.target.value)}
             fontSize="2xl"
-            fontWeight="extrabold"
+            fontWeight="bold"
             focusBorderColor="teal.500"
           />
         </FormControl>
       </form>
+
       <Button
         _focus={{ outline: 0 }}
         size="sm"
