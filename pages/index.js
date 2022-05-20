@@ -7,7 +7,7 @@ import useSWR from "swr";
 import groq from "groq";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
-const key = groq`*[_type == "task"] | order(_createdAt desc)`;
+const key = groq`*[_type == "task"] | order(_updatedAt desc)`;
 
 export default function Home() {
   const { data: tasks, error, mutate } = useSWR(key, fetcher);

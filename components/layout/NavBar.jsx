@@ -1,14 +1,17 @@
-import { Button, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  HStack,
+  IconButton,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import Link from "next/link";
-import React from "react";
 import AboutModal from "./AboutModal";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { BsGithub } from "react-icons/bs";
 
 const NavBar = () => {
-    const txtColor = useColorModeValue("black", "white");
-
-
-
+  const txtColor = useColorModeValue("black", "white");
 
   return (
     <Flex
@@ -19,11 +22,28 @@ const NavBar = () => {
       backdropFilter="blur(5px)"
     >
       <Link href="/">
-        <Button variant='link' color={txtColor} _focus={{outline: 0 }}  fontWeight="black" fontSize="4xl">
+        <Button
+          variant="link"
+          color={txtColor}
+          _focus={{ outline: 0 }}
+          fontWeight="black"
+          fontSize="4xl"
+        >
           Tasks.
         </Button>
       </Link>
       <HStack>
+        <a
+          href="https://github.com/ocwilsonchow/next-sanity-todo"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconButton
+            icon={<BsGithub />}
+            variant="ghost"
+            _focus={{ outline: 0 }}
+          />
+        </a>
         <AboutModal />
         <ColorModeSwitcher />
       </HStack>

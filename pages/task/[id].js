@@ -11,11 +11,10 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  Flex,
   InputGroup,
-  InputRightAddon,
+  InputRightElement,
+  GridItem,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { client } from "../../lib/sanity";
 import useSWR from "swr";
@@ -77,19 +76,15 @@ const PageTaskShow = () => {
       </Center>
     );
 
+
   return (
     <Box p={6}>
-      <Box position="relative">
-        <Flex mx={3} position="absolute" top={4} left={-6}>
-          {task.highlighted && <StarIcon fontSize="md" color="salmon" />}
-        </Flex>
-        <Text fontWeight="extrabold" fontSize="7xl">
-          {task.description}
-        </Text>
-      </Box>
+      <Text fontWeight="extrabold" fontSize="7xl">
+        {task.description}
+      </Text>
       <Box py={6}>
         <form style={{ width: "100%" }} onSubmit={(e) => handleCreatePoint(e)}>
-          <FormControl>
+          <FormControl pl={1}>
             <InputGroup>
               <Input
                 variant="flushed"
@@ -101,9 +96,9 @@ const PageTaskShow = () => {
                 fontWeight="extrabold"
                 focusBorderColor="teal.500"
               />
-              <InputRightAddon bg='none' border='none' >
+              <InputRightElement bg="none" border="none">
                 {loading && <Spinner />}
-              </InputRightAddon>
+              </InputRightElement>
             </InputGroup>
             {errorMsg && (
               <Alert my={3}>
@@ -115,8 +110,13 @@ const PageTaskShow = () => {
         </form>
       </Box>
       <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+        {!task.details && (
+          <GridItem colSpan={6} as={Alert} colorScheme='gray' fontWeight="bold">
+            <AlertTitle>{`Nothing in ${task.description}`}</AlertTitle>
+          </GridItem>
+        )}
         {task.details?.map((point, i) => (
-          <SinglePoint key={i} point={point} i={i} taskId={task._id} />
+          <SinglePoint key={i} point={point} i={i} task={task} />
         ))}
       </Grid>
     </Box>

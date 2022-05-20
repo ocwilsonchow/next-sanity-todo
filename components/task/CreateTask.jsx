@@ -7,25 +7,23 @@ import {
   useColorModeValue,
   useToast,
   FormControl,
-  Box,
-  Text,
 } from "@chakra-ui/react";
 import { client } from "../../lib/sanity";
 import groq from "groq";
 import useSWR from "swr";
-import moment from "moment";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
 const key = groq`*[_type == "task"] | order(_createdAt desc)`;
 
 const CreateTask = () => {
-  const { data: tasks, error, mutate } = useSWR(key, fetcher);
+  const { data, error, mutate } = useSWR(key, fetcher);
   const [taskInput, setTaskInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bgColor = useColorModeValue("gray.50", "teal.800");
   const txtColor = useColorModeValue("black", "white");
   const toast = useToast();
 
+  // Create task with Sanity Client
   const handleCreateTask = async (e) => {
     e.preventDefault();
     setTaskInput("");
@@ -60,7 +58,7 @@ const CreateTask = () => {
       columnGap={4}
       alignItems="center"
       px={4}
-      py={2}
+      py={3}
       borderWidth={0.5}
       rounded="base"
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
@@ -88,6 +86,7 @@ const CreateTask = () => {
         onClick={(e) => handleCreateTask(e)}
         isLoading={loading}
         type="submit"
+        disabled={!taskInput}
       >
         Create
       </Button>
