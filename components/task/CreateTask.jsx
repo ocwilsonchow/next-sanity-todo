@@ -19,7 +19,7 @@ const CreateTask = () => {
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
   const [taskInput, setTaskInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const bgColor = useColorModeValue("gray.50", "green.800");
+  const bgColor = useColorModeValue("gray.50", "teal.800");
   const txtColor = useColorModeValue("black", "white");
   const toast = useToast();
 
