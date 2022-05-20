@@ -57,8 +57,8 @@ const SingleTask = ({ task }) => {
       color={txtColor}
       position='relative'
     >
-      <Flex mx={3} position="absolute" top={1} left={-2} >
-        {task.highlighted && <StarIcon fontSize="md" color="salmon" />}
+      <Flex mx={3} position="absolute" top={0} left={-3} >
+        {task.highlighted && <StarIcon fontSize="lg" color="blue.400" />}
       </Flex>
       <HStack>
         <Box>
