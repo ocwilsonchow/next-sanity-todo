@@ -19,7 +19,7 @@ const NavBar = () => {
       justifyContent="space-between"
       alignItems="center"
       p={6}
-      backdropFilter="blur(5px)"
+      maxW={1200}
     >
       <Link href="/">
         <Button
