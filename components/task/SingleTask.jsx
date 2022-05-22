@@ -57,7 +57,7 @@ const SingleTask = ({ task }) => {
       bg={bgColor}
       color={txtColor}
       position="relative"
-      borderLeftWidth={task.highlighted && "6px"}
+      borderLeftWidth={task.highlighted && "4px"}
       borderLeftColor={task.highlighted && "blue.400"}
     >
       <HStack>
@@ -76,7 +76,7 @@ const SingleTask = ({ task }) => {
               {task.description}
             </Text>
           </Link>
-          <Text fontSize="0.75rem" fontWeight="thin" opacity='50%'>
+          <Text fontSize="0.75rem" fontWeight="thin" opacity='70%'>
             {moment(task._updatedAt).calendar()}
           </Text>
         </Box>
@@ -86,8 +86,7 @@ const SingleTask = ({ task }) => {
         _focus={{ outline: 0 }}
         onClick={() => handleDelete()}
         size="xs"
-        variant="ghost"
-        opacity="30%"
+        variant="outline"
       >
         Delete
       </Button>

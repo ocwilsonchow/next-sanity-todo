@@ -120,11 +120,6 @@ const PageTaskShow = () => {
         </form>
       </Box>
       <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-        {!task.details && (
-          <GridItem colSpan={6} as={Alert} colorScheme="gray" fontWeight="bold">
-            <AlertTitle>{`Nothing in ${task.description}`}</AlertTitle>
-          </GridItem>
-        )}
         {task.details?.map((point, i) => (
           <SinglePoint key={i} point={point} i={i} task={task} />
         ))}
