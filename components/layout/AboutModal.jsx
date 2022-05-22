@@ -15,7 +15,7 @@ import { InfoIcon } from "@chakra-ui/icons";
 
 const AboutModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const bgColor = useColorModeValue("rgba(255,255,255,0.9)", "rgba(0,0,0,0.5)");
+  const bgColor = useColorModeValue("rgba(255,255,255,0.8)", "rgba(0,0,0,0.4)");
   const packages = [
     {
       purpose: "Frontend",

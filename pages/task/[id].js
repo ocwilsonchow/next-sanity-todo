@@ -13,7 +13,10 @@ import {
   AlertTitle,
   InputGroup,
   InputRightElement,
+  InputLeftElement,
   GridItem,
+  useColorModeValue,
+  Kbd,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { client } from "../../lib/sanity";
@@ -32,6 +35,7 @@ const PageTaskShow = () => {
   const toast = useToast();
   const { data: task, mutate } = useSWR(key, fetcher);
   const [errorMsg, setErrorMsg] = useState("");
+  const bgColor = useColorModeValue("gray.50", "teal.800");
 
   useEffect(() => {
     if (pointInput.length > 50) {
@@ -76,27 +80,33 @@ const PageTaskShow = () => {
       </Center>
     );
 
-
   return (
     <Box p={6}>
       <Text fontWeight="extrabold" fontSize="7xl">
         {task.description}
       </Text>
-      <Box py={6}>
+      <Box py={4}>
         <form style={{ width: "100%" }} onSubmit={(e) => handleCreatePoint(e)}>
-          <FormControl pl={1}>
+          <FormControl
+            px={4}
+            py={3}
+            bg={bgColor}
+            borderWidth={0.5}
+            rounded="base"
+          >
             <InputGroup>
               <Input
-                variant="flushed"
+                variant="unstyled"
                 w="full"
                 placeholder="Create task"
                 value={pointInput}
                 onChange={(e) => setPointInput(e.target.value)}
                 fontSize="2xl"
-                fontWeight="extrabold"
+                fontWeight="bold"
                 focusBorderColor="teal.500"
               />
-              <InputRightElement bg="none" border="none">
+              <InputRightElement pr={4} bg="none" border="none">
+                <Kbd>Enter</Kbd>
                 {loading && <Spinner />}
               </InputRightElement>
             </InputGroup>
@@ -111,7 +121,7 @@ const PageTaskShow = () => {
       </Box>
       <Grid templateColumns="repeat(4, 1fr)" gap={4}>
         {!task.details && (
-          <GridItem colSpan={6} as={Alert} colorScheme='gray' fontWeight="bold">
+          <GridItem colSpan={6} as={Alert} colorScheme="gray" fontWeight="bold">
             <AlertTitle>{`Nothing in ${task.description}`}</AlertTitle>
           </GridItem>
         )}

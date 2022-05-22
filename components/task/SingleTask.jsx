@@ -17,11 +17,11 @@ import useSWR from "swr";
 import Link from "next/link";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
-const key = groq`*[_type == "task"] | order(_createdAt desc)`;
+const key = groq`*[_type == "task"] | order(_updatedAt desc)`;
 
 const SingleTask = ({ task }) => {
   const [loading, setLoading] = useState(false);
-  const { data: tasks, error, mutate } = useSWR(key, fetcher);
+  const { data: tasks, error, mutate } = useSWR(key, fetcher); // SWR Hook
   const bgColor = useColorModeValue("gray.50", "teal.800");
   const txtColor = useColorModeValue("black", "white");
   const toast = useToast();
@@ -50,16 +50,16 @@ const SingleTask = ({ task }) => {
       justifyContent="space-between"
       alignItems="center"
       p={4}
+      pr={2.5}
       borderWidth={0.5}
       rounded="base"
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
       bg={bgColor}
       color={txtColor}
       position="relative"
+      borderLeftWidth={task.highlighted && "6px"}
+      borderLeftColor={task.highlighted && "blue.400"}
     >
-      <Flex mx={3} position="absolute" top={1} left={-2.5}>
-        {task.highlighted && <StarIcon fontSize="lg" color="blue.400" />}
-      </Flex>
       <HStack>
         <Box>
           <Link href={`/task/${task._id}`}>
@@ -76,7 +76,7 @@ const SingleTask = ({ task }) => {
               {task.description}
             </Text>
           </Link>
-          <Text fontSize="0.8rem" fontWeight="thin">
+          <Text fontSize="0.75rem" fontWeight="thin" opacity='50%'>
             {moment(task._updatedAt).calendar()}
           </Text>
         </Box>
@@ -85,8 +85,9 @@ const SingleTask = ({ task }) => {
         isLoading={loading}
         _focus={{ outline: 0 }}
         onClick={() => handleDelete()}
-        size="sm"
+        size="xs"
         variant="ghost"
+        opacity="30%"
       >
         Delete
       </Button>

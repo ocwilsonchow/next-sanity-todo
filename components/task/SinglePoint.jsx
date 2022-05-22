@@ -24,7 +24,6 @@ const SinglePoint = ({ point, i }) => {
   const toast = useToast();
   const key = groq`*[_type == "task" && _id == "${id}" ]`;
   const { data: task, mutate } = useSWR(key, fetcher);
-  const txtColor = useColorModeValue("black", "white");
 
   // Normal Delete, only mutate when delete is successful
   const handleDelete = async (i) => {
@@ -60,7 +59,7 @@ const SinglePoint = ({ point, i }) => {
 
   return (
     <GridItem
-      p={4}
+      px={4}
       py={3}
       borderWidth={0.5}
       rounded="base"

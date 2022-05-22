@@ -3,20 +3,23 @@ import {
   GridItem,
   Flex,
   Input,
-  Button,
+  Spinner,
   useColorModeValue,
   useToast,
   FormControl,
+  InputGroup,
+  InputRightElement,
+  Kbd,
 } from "@chakra-ui/react";
 import { client } from "../../lib/sanity";
 import groq from "groq";
 import useSWR from "swr";
 
 const fetcher = (query) => client.fetch(query).then((r) => r);
-const key = groq`*[_type == "task"] | order(_createdAt desc)`;
+const key = groq`*[_type == "task"] | order(_updatedAt desc)`;
 
 const CreateTask = () => {
-  const { data, error, mutate } = useSWR(key, fetcher);
+  const { data, error, mutate } = useSWR(key, fetcher); //SWR hook
   const [taskInput, setTaskInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bgColor = useColorModeValue("gray.50", "teal.800");
@@ -28,11 +31,12 @@ const CreateTask = () => {
     e.preventDefault();
     setTaskInput("");
     if (!taskInput) return;
+    if (loading) return
     setLoading(true);
     const doc = {
       _type: "task",
       description: taskInput,
-      highlighted: false
+      highlighted: false,
     };
     try {
       await client.create(doc);
@@ -59,36 +63,33 @@ const CreateTask = () => {
       alignItems="center"
       px={4}
       py={3}
+      pr={2.5}
       borderWidth={0.5}
       rounded="base"
       colSpan={{ base: 6, sm: 6, md: 3, lg: 2 }}
       bg={bgColor}
       color={txtColor}
     >
-      <form style={{ width: "80%" }} onSubmit={(e) => handleCreateTask(e)}>
+      <form onSubmit={(e) => handleCreateTask(e)}>
         <FormControl>
-          <Input
-            variant="flushed"
-            w="full"
-            value={taskInput}
-            onChange={(e) => setTaskInput(e.target.value)}
-            fontSize="2xl"
-            fontWeight="bold"
-            focusBorderColor="teal.500"
-          />
+          <InputGroup>
+            <Input
+              variant="unstyled"
+              w="full"
+              value={taskInput}
+              placeholder="Create..."
+              onChange={(e) => setTaskInput(e.target.value)}
+              fontSize="2xl"
+              fontWeight="bold"
+              focusBorderColor="teal.500"
+
+            />
+            <InputRightElement pr={4} bg="none" border="none">
+              {loading && <Spinner /> ||  <Kbd>Enter</Kbd>}
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
       </form>
-
-      <Button
-        _focus={{ outline: 0 }}
-        size="sm"
-        onClick={(e) => handleCreateTask(e)}
-        isLoading={loading}
-        type="submit"
-        disabled={!taskInput}
-      >
-        Create
-      </Button>
     </GridItem>
   );
 };
