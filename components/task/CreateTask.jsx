@@ -70,7 +70,7 @@ const CreateTask = () => {
       bg={bgColor}
       color={txtColor}
     >
-      <form onSubmit={(e) => handleCreateTask(e)}>
+      <form style={{width: '100%'}} onSubmit={(e) => handleCreateTask(e)}>
         <FormControl>
           <InputGroup>
             <Input

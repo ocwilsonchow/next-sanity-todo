@@ -57,7 +57,7 @@ const SingleTask = ({ task }) => {
       bg={bgColor}
       color={txtColor}
       position="relative"
-      borderLeftWidth={task.highlighted && "4px"}
+      borderLeftWidth={task.highlighted && "5px"}
       borderLeftColor={task.highlighted && "blue.400"}
     >
       <HStack>
