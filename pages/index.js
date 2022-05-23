@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Box, Grid, Center, Spinner } from "@chakra-ui/react";
+import { client } from "../lib/sanity";
 import CreateTask from "../components/task/CreateTask";
 import SingleTask from "../components/task/SingleTask";
-import { client } from "../lib/sanity";
 import useSWR from "swr";
 import groq from "groq";
 

@@ -9,9 +9,8 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
-import moment from "moment";
 import { client } from "../../lib/sanity";
+import moment from "moment";
 import groq from "groq";
 import useSWR from "swr";
 import Link from "next/link";
@@ -76,7 +75,7 @@ const SingleTask = ({ task }) => {
               {task.description}
             </Text>
           </Link>
-          <Text fontSize="0.75rem" fontWeight="thin" opacity='70%'>
+          <Text fontSize="0.75rem" fontWeight="thin" opacity="70%">
             {moment(task._updatedAt).calendar()}
           </Text>
         </Box>

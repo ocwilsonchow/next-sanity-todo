@@ -5,12 +5,10 @@ import { mode } from '@chakra-ui/theme-tools'
 export const theme = extendTheme({
   styles: {
     global: props => ({
-      // styles for the `body`
       body: {
         bg: mode('white', 'teal.900')(props),
 
       },
-      // styles for the `a`
       a: {
         color: 'teal.500',
         _hover: {
