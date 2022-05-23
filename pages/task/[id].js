@@ -13,8 +13,6 @@ import {
   AlertTitle,
   InputGroup,
   InputRightElement,
-  InputLeftElement,
-  GridItem,
   useColorModeValue,
   Kbd,
 } from "@chakra-ui/react";
@@ -106,8 +104,7 @@ const PageTaskShow = () => {
                 focusBorderColor="teal.500"
               />
               <InputRightElement pr={4} bg="none" border="none">
-                <Kbd>Enter</Kbd>
-                {loading && <Spinner />}
+                {(loading && <Spinner />) || <Kbd>Enter</Kbd>}
               </InputRightElement>
             </InputGroup>
             {errorMsg && (
