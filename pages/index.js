@@ -13,7 +13,7 @@ export default function Home() {
   const { data: tasks, error, mutate } = useSWR(key, fetcher);
 
   useEffect(() => {
-    const query = '*[_type == "task"]';
+    const key = groq`*[_type == "task"] | order(_updatedAt desc)`;
     client.listen(query).subscribe(() => {
       mutate();
     });
